@@ -1,6 +1,6 @@
 {
   "name": "catnap",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "CatNap: a service to find nap spots with cat companions",
   "main": "app.js",
   "scripts": {

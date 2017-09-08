@@ -6,10 +6,18 @@ app.set("view engine", "ejs");
 app.use(express.static(__dirname + '/public'));
 app.use(bodyParser.urlencoded({extended: true}));
 
+// DB for now. MongoDB to be implemented.
+
 var napspots = [
 	{name: "Poplar Bluff", image: "/images/8699891266.png"},
 	{name: "Cedar Creek", image: "/images/7358337100.png"},
-	{name: "Terrace View", image: "/images/2248805448.png"},
+	{name: "Terrace View", image: "/images/5999254837.png"},
+	{name: "Poplar Bluff", image: "/images/8699891266.png"},
+	{name: "Cedar Creek", image: "/images/7358337100.png"},
+	{name: "Terrace View", image: "/images/5999254837.png"},
+	{name: "Poplar Bluff", image: "/images/8699891266.png"},
+	{name: "Cedar Creek", image: "/images/7358337100.png"},
+	{name: "Terrace View", image: "/images/5999254837.png"},
 ];
 
 // ROUTES
