@@ -1,0 +1,13 @@
+<% include partials/header %>
+
+<h1>This is the Nap Spot page</h1>
+
+<a href="/napspots/new">Add new Nap Spot.</a>
+
+<% napspots.forEach(function(napspot){ %>
+  <div>
+    <h4><%=napspot.name%></h4>
+    <img src="<%= napspot.image %>">
+  </div>
+<% }); %>
+ <% include partials/footer %>

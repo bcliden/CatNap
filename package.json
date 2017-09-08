@@ -1,0 +1,16 @@
+{
+  "name": "catnap",
+  "version": "0.1.0",
+  "description": "CatNap: a service to find nap spots with cat companions",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Benjamin Liden",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.17.2",
+    "ejs": "^2.5.7",
+    "express": "^4.15.4"
+  }
+}
