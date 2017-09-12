@@ -13,6 +13,7 @@ app.use(bodyParser.urlencoded({extended: true}));
 var napspotSchema = new mongoose.Schema({
 	name: String,
 	image: String,
+  description: String
 });
 
 var Napspot = mongoose.model("Napspot", napspotSchema);
@@ -23,6 +24,21 @@ var Napspot = mongoose.model("Napspot", napspotSchema);
 // 	{name: "Terrace View", image: "/images/5999254837.png"},
 //
 // ];
+
+// Napspot.create(
+//   {
+//     name: "Old World Station",
+//     image: "/images/5982644976.png",
+//     description: "A stately mansion for a lavish nap. Persian cat included."
+//   }, function(err, napspot){
+//     if(err){
+//       console.log(err);
+//     } else {
+//       console.log("successfully added:")
+//       console.log(napspot);
+//     };
+//   });
+
 
 // ROUTES
 
@@ -37,7 +53,7 @@ app.get("/napspots", function(req, res){
 			if(err){
 				console.log(err);
 			} else {
-				res.render("napspots", {napspots: allNapspots});
+				res.render("index", {napspots: allNapspots});
 			};
 		});
 });
@@ -47,7 +63,8 @@ app.post("/napspots", function(req, res){
 	//get data from form
 	var name = req.body.name;
 	var image = req.body.image;
-	var newNapspot = {name: name, image: image};
+  var description = req.body.description;
+	var newNapspot = {name: name, image: image, description: description};
 	Napspot.create(newNapspot, function(err, newNapspot){
 		if(err){
 			console.log(err);
@@ -62,11 +79,24 @@ app.get("/napspots/new", function(req, res){
 	res.render("new")
 });
 
+// SHOW
+app.get("/napspots/:id", function(req, res){
+//find the napspot with the provided ID
+  Napspot.findById(req.params.id, function(err, foundNapSpot){
+    if(err){
+      console.log(err);
+    } else {
+      // render show template with that napspot
+      res.render("show", {napspot: foundNapSpot});
+    };
+  });
+});
+
 app.get("/*", function(req, res){
 	res.render("return");
 });
 
-//SERVER
+// SERVER
 
 app.listen(3000, function(){
 	console.log("The CatNap server has started!");
