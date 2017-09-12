@@ -1,24 +1,28 @@
-var express = require("express");
-var app = express();
-var bodyParser = require("body-parser");
+var express 		= require("express"),
+ 		app 				= express(),
+ 		bodyParser 	= require("body-parser"),
+		mongoose = require("mongoose")
 
+mongoose.connect("mongodb://localhost/catnap");
 app.set("view engine", "ejs");
 app.use(express.static(__dirname + '/public'));
 app.use(bodyParser.urlencoded({extended: true}));
 
-// DB for now. MongoDB to be implemented.
+// SCHEMA
 
-var napspots = [
-	{name: "Poplar Bluff", image: "/images/8699891266.png"},
-	{name: "Cedar Creek", image: "/images/7358337100.png"},
-	{name: "Terrace View", image: "/images/5999254837.png"},
-	{name: "Poplar Bluff", image: "/images/8699891266.png"},
-	{name: "Cedar Creek", image: "/images/7358337100.png"},
-	{name: "Terrace View", image: "/images/5999254837.png"},
-	{name: "Poplar Bluff", image: "/images/8699891266.png"},
-	{name: "Cedar Creek", image: "/images/7358337100.png"},
-	{name: "Terrace View", image: "/images/5999254837.png"},
-];
+var napspotSchema = new mongoose.Schema({
+	name: String,
+	image: String,
+});
+
+var Napspot = mongoose.model("Napspot", napspotSchema);
+
+// var napspots = [
+// 	{name: "Poplar Bluff", image: "/images/8699891266.png"},
+// 	{name: "Cedar Creek", image: "/images/7358337100.png"},
+// 	{name: "Terrace View", image: "/images/5999254837.png"},
+//
+// ];
 
 // ROUTES
 
@@ -26,21 +30,34 @@ app.get("/", function(req, res){
 	res.render("landing");
 });
 
+// INDEX
 app.get("/napspots", function(req, res){
-		res.render("napspots", {napspots: napspots});
+		//get all napspots from DB
+		Napspot.find({}, function(err, allNapspots){
+			if(err){
+				console.log(err);
+			} else {
+				res.render("napspots", {napspots: allNapspots});
+			};
+		});
 });
 
+// CREATE
 app.post("/napspots", function(req, res){
 	//get data from form
 	var name = req.body.name;
 	var image = req.body.image;
 	var newNapspot = {name: name, image: image};
-	//add to napspot array
-	napspots.push(newNapspot);
-	//redir to /napspots page
-	res.redirect("/napspots")
+	Napspot.create(newNapspot, function(err, newNapspot){
+		if(err){
+			console.log(err);
+		} else {
+			res.redirect("/napspots");
+		};
+	});
 });
 
+// NEW
 app.get("/napspots/new", function(req, res){
 	res.render("new")
 });
