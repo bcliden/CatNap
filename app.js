@@ -1,19 +1,23 @@
 var express 		= require("express"),
  		app 				= express(),
  		bodyParser 	= require("body-parser"),
-		Napspot     = require("./models/napspot");
+		Napspot     = require("./models/napspot"),
+    Comment     = require("./models/comment"),
+    seedDB      = require("./seeds");
 
 // DATABASE
 var mongoose = require("mongoose");
 mongoose.connect("mongodb://localhost/catnap");
+seedDB();
 
-//APP CONFIG
+// APP CONFIG
 app.set("view engine", "ejs");
 app.use(express.static(__dirname + '/public'));
 app.use(bodyParser.urlencoded({extended: true}));
 
 
-// ROUTES //
+// // ROUTES // //
+
 
 app.get("/", function(req, res){
 	res.render("landing");
@@ -55,10 +59,11 @@ app.get("/napspots/new", function(req, res){
 // SHOW
 app.get("/napspots/:id", function(req, res){
 //find the napspot with the provided ID
-  Napspot.findById(req.params.id, function(err, foundNapSpot){
+  Napspot.findById(req.params.id).populate("comments").exec(function(err, foundNapSpot){
     if(err){
       console.log(err);
     } else {
+      console.log(foundNapSpot);
       // render show template with that napspot
       res.render("show", {napspot: foundNapSpot});
     };
@@ -68,6 +73,7 @@ app.get("/napspots/:id", function(req, res){
 app.get("/*", function(req, res){
 	res.render("return");
 });
+
 
 // SERVER
 app.listen(3000, function(){
