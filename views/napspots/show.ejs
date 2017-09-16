@@ -1,4 +1,4 @@
-<% include partials/header %>
+<% include ../partials/header %>
 
 <h1><%=napspot.name%></h1>
 
@@ -6,8 +6,12 @@
 
 <p><%= napspot.description %></p>
 
+<p>
+  <a class="btn btn-success" href="/napspots/<%= napspot._id %>/comments/new">Add New Comment</a>
+</p>
+
 <% napspot.comments.forEach(function(comment){ %>
   <p><strong><%= comment.author %></strong> - <%= comment.text %></p>
 <% }); %>
 
-<% include partials/footer %>
+<% include ../partials/footer %>

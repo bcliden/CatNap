@@ -16,7 +16,7 @@ app.use(express.static(__dirname + '/public'));
 app.use(bodyParser.urlencoded({extended: true}));
 
 
-// // ROUTES // //
+// ========== // ROUTES // ========== //
 
 
 app.get("/", function(req, res){
@@ -30,7 +30,7 @@ app.get("/napspots", function(req, res){
 			if(err){
 				console.log(err);
 			} else {
-				res.render("index", {napspots: allNapspots});
+				res.render("napspots/index", {napspots: allNapspots});
 			};
 		});
 });
@@ -53,7 +53,7 @@ app.post("/napspots", function(req, res){
 
 // NEW
 app.get("/napspots/new", function(req, res){
-	res.render("new")
+	res.render("napspots/new")
 });
 
 // SHOW
@@ -65,13 +65,51 @@ app.get("/napspots/:id", function(req, res){
     } else {
       console.log(foundNapSpot);
       // render show template with that napspot
-      res.render("show", {napspot: foundNapSpot});
+      res.render("napspots/show", {napspot: foundNapSpot});
     };
   });
 });
 
+// ========== // COMMENTS ROUTES // ========== //
+
+//NEW
+app.get("/napspots/:id/comments/new", function(req, res){
+  //find napspot by ID
+  Napspot.findById(req.params.id, function(err, foundNapSpot){
+    if(err){
+      console.log(err);
+    } else {
+      res.render("comments/new", {napspot: foundNapSpot});
+    };
+  });
+});
+
+
+//CREATE
+app.post("/napspots/:id/comments", function(req, res){
+  Napspot.findById(req.params.id, function(err, napspot){
+    if(err){
+      console.log(err);
+      res.redirect("/napspots")
+    } else {
+      Comment.create(req.body.comment, function(err, comment){
+        if(err){
+          console.log(err)
+          res.redirect("/napspots");
+        } else {
+          napspot.comments.push(comment);
+          napspot.save();
+          res.redirect("/napspots/" + napspot._id);
+        }
+      })
+    }
+  })
+});
+
+//
+
 app.get("/*", function(req, res){
-	res.render("return");
+	res.render("error");
 });
 
 
