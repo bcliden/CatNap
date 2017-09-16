@@ -1,46 +1,19 @@
 var express 		= require("express"),
  		app 				= express(),
  		bodyParser 	= require("body-parser"),
-		mongoose = require("mongoose")
+		Napspot     = require("./models/napspot");
 
+// DATABASE
+var mongoose = require("mongoose");
 mongoose.connect("mongodb://localhost/catnap");
+
+//APP CONFIG
 app.set("view engine", "ejs");
 app.use(express.static(__dirname + '/public'));
 app.use(bodyParser.urlencoded({extended: true}));
 
-// SCHEMA
 
-var napspotSchema = new mongoose.Schema({
-	name: String,
-	image: String,
-  description: String
-});
-
-var Napspot = mongoose.model("Napspot", napspotSchema);
-
-// var napspots = [
-// 	{name: "Poplar Bluff", image: "/images/8699891266.png"},
-// 	{name: "Cedar Creek", image: "/images/7358337100.png"},
-// 	{name: "Terrace View", image: "/images/5999254837.png"},
-//
-// ];
-
-// Napspot.create(
-//   {
-//     name: "Old World Station",
-//     image: "/images/5982644976.png",
-//     description: "A stately mansion for a lavish nap. Persian cat included."
-//   }, function(err, napspot){
-//     if(err){
-//       console.log(err);
-//     } else {
-//       console.log("successfully added:")
-//       console.log(napspot);
-//     };
-//   });
-
-
-// ROUTES
+// ROUTES //
 
 app.get("/", function(req, res){
 	res.render("landing");
@@ -60,7 +33,7 @@ app.get("/napspots", function(req, res){
 
 // CREATE
 app.post("/napspots", function(req, res){
-	//get data from form
+	//get data from form req
 	var name = req.body.name;
 	var image = req.body.image;
   var description = req.body.description;
@@ -97,7 +70,6 @@ app.get("/*", function(req, res){
 });
 
 // SERVER
-
 app.listen(3000, function(){
 	console.log("The CatNap server has started!");
 });
