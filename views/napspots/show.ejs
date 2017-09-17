@@ -1,17 +1,45 @@
 <% include ../partials/header %>
 
-<h1><%=napspot.name%></h1>
+<div class="container">
+  <div class="row">
+    <div class="col-md-3">
+      <p class="lead">CatNap</p>
+      <div class="list-group">
+        <li class="list-group-item active">Item 1</li>
+        <li class="list-group-item">Item 2</li>
+        <li class="list-group-item">Item 3</li>
+      </div>
+    </div>
+    <div class="col-md-9">
+      <div class="thumbnail">
+        <img class="image-responsive" src="<%= napspot.image %>" alt="">
+        <div class="caption">
+          <%# PRICE %>
+          <h4 class="pull-right">$9.00/night</h4>
+          <h1><a><%=napspot.name%></a></h1>
+          <p><%= napspot.description %></p>
+        </div>
+      </div>
+      <div class="well">
+        <div class="text-right">
+          <a class="btn btn-success" href="/napspots/<%= napspot._id %>/comments/new">Add New Comment</a>
+          <hr>
+        </div>
 
-<img src="<%= napspot.image %>" alt="">
+        <% napspot.comments.forEach(function(comment){ %>
+          <div class="row">
+            <div class="col-md-12">
+              <strong><%= comment.author %></strong>
+              <%# NUMBER OF DAYS AGO %>
+              <span class="pull-right">10 days ago</span>
+              <p><%= comment.text %></p>
+            </div>
+          </div>
+        <% }); %>
 
-<p><%= napspot.description %></p>
-
-<p>
-  <a class="btn btn-success" href="/napspots/<%= napspot._id %>/comments/new">Add New Comment</a>
-</p>
-
-<% napspot.comments.forEach(function(comment){ %>
-  <p><strong><%= comment.author %></strong> - <%= comment.text %></p>
-<% }); %>
+        </div>
+    </div>
+  </div>
+</div>
 
 <% include ../partials/footer %>

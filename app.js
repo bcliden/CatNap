@@ -8,7 +8,9 @@ var express 		= require("express"),
 // DATABASE
 var mongoose = require("mongoose");
 mongoose.connect("mongodb://localhost/catnap");
-seedDB();
+
+//UNCOMMENT TO SEED DB
+//seedDB();
 
 // APP CONFIG
 app.set("view engine", "ejs");
@@ -100,10 +102,10 @@ app.post("/napspots/:id/comments", function(req, res){
           napspot.comments.push(comment);
           napspot.save();
           res.redirect("/napspots/" + napspot._id);
-        }
-      })
-    }
-  })
+        };
+      });
+    };
+  });
 });
 
 //
