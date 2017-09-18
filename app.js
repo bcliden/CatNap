@@ -124,22 +124,34 @@ app.post("/napspots/:id/comments", function(req, res){
 
 // AUTHENTICATION ROUTES
 
-app.get("/register", function(req, res){
-  res.render("register");
+app.get("/signup", function(req, res){
+  res.render("signup");
 });
 
-app.post("/register", function(req, res){
+app.post("/signup", function(req, res){
   var newUser = new User({username: req.body.username});
   User.register(newUser, req.body.password, function(err, user){
     if(err){
       console.log(err);
-      return res.render("register")
+      return res.render("signup")
     }
     passport.authenticate("local")(req, res, function(){
       res.redirect("/napspots");
     })
   });
 });
+
+app.get("/login", function(req, res){
+  res.render("login");
+});
+
+app.post("/login",
+  passport.authenticate("local",
+    {
+      successRedirect: "/napspots",
+      failureRedirect: "/login"
+    }), function(req, res){
+  });
 
 // ERROR MSG
 
