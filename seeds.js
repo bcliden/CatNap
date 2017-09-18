@@ -32,35 +32,35 @@ function seedDB(){
   });
   //remove all napspots
   Napspot.remove({}, function(err){
-    if(err){
-      console.log(err);
-    } else {
-    console.log("Removed all napspots!");
-    //add some napspots
-    data.forEach(function(seed){
-      Napspot.create(seed, function(err, napspot){
-        if(err){
-          console.log(err);
-        } else {
-          console.log("Added a napspot")
-          //add some comments
-          Comment.create(
-            {
-              text: "Pretty nice but covered in cat hair",
-              author: "Terrence"
-            }, function(err, comment){
-              if(err){
-                console.log(err);
-              } else {
-                napspot.comments.push(comment);
-                napspot.save();
-                console.log("new comment added");
-              };
-            });
-        };
-      });
-    });
-    };
+    // if(err){
+    //   console.log(err);
+    // } else {
+    // console.log("Removed all napspots!");
+    // //add some napspots
+    // data.forEach(function(seed){
+    //   Napspot.create(seed, function(err, napspot){
+    //     if(err){
+    //       console.log(err);
+    //     } else {
+    //       console.log("Added a napspot")
+    //       //add some comments
+    //       Comment.create(
+    //         {
+    //           text: "Pretty nice but covered in cat hair",
+    //           author: "Terrence"
+    //         }, function(err, comment){
+    //           if(err){
+    //             console.log(err);
+    //           } else {
+    //             napspot.comments.push(comment);
+    //             napspot.save();
+    //             console.log("new comment added");
+    //           };
+    //         });
+    //     };
+    //   });
+    // });
+    // };
   });
 };
 

@@ -27,6 +27,11 @@ router.post("/", isLoggedIn, function(req, res){
           console.log(err)
           res.redirect("/napspots");
         } else {
+          //add username + id to comment
+          comment.author.id = req.user._id;
+          comment.author.username = req.user.username
+          comment.save();
+          //save comment
           napspot.comments.push(comment);
           napspot.save();
           res.redirect("/napspots/" + napspot._id);
