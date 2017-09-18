@@ -1,9 +1,12 @@
-var express 		= require("express"),
- 		app 				= express(),
- 		bodyParser 	= require("body-parser"),
-		Napspot     = require("./models/napspot"),
-    Comment     = require("./models/comment"),
-    seedDB      = require("./seeds");
+var express 		  = require("express"),
+ 		app           = express(),
+ 		bodyParser    = require("body-parser"),
+    passport      = require("passport"),
+    localStrategy = require("passport-local"),
+		Napspot       = require("./models/napspot"),
+    Comment       = require("./models/comment"),
+    User          = require("./models/user"),
+    seedDB        = require("./seeds");
 
 // DATABASE
 var mongoose = require("mongoose");
@@ -17,6 +20,17 @@ app.set("view engine", "ejs");
 app.use(express.static(__dirname + '/public'));
 app.use(bodyParser.urlencoded({extended: true}));
 
+//PASSPORT CONFIG
+app.use(require("express-session")({
+  secret: "Secret passphrase here",
+  resave: false,
+  saveUninitialized: false
+}));
+app.use(passport.initialize());
+app.use(passport.session());
+passport.use(new localStrategy(User.authenticate()));
+passport.serializeUser(User.serializeUser());
+passport.deserializeUser(User.deserializeUser());
 
 // ========== // ROUTES // ========== //
 
@@ -108,7 +122,26 @@ app.post("/napspots/:id/comments", function(req, res){
   });
 });
 
-//
+// AUTHENTICATION ROUTES
+
+app.get("/register", function(req, res){
+  res.render("register");
+});
+
+app.post("/register", function(req, res){
+  var newUser = new User({username: req.body.username});
+  User.register(newUser, req.body.password, function(err, user){
+    if(err){
+      console.log(err);
+      return res.render("register")
+    }
+    passport.authenticate("local")(req, res, function(){
+      res.redirect("/napspots");
+    })
+  });
+});
+
+// ERROR MSG
 
 app.get("/*", function(req, res){
 	res.render("error");
