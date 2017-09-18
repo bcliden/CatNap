@@ -32,6 +32,11 @@ passport.use(new localStrategy(User.authenticate()));
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
 
+app.use(function(req, res, next){
+  res.locals.currentUser = req.user;
+  next();
+})
+
 // ========== // ROUTES // ========== //
 
 
@@ -46,7 +51,7 @@ app.get("/napspots", function(req, res){
 			if(err){
 				console.log(err);
 			} else {
-				res.render("napspots/index", {napspots: allNapspots});
+				res.render("napspots/index", {napspots: allNapspots, currentUser: req.user});
 			};
 		});
 });
