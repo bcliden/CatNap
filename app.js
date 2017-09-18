@@ -89,7 +89,7 @@ app.get("/napspots/:id", function(req, res){
 // ========== // COMMENTS ROUTES // ========== //
 
 //NEW
-app.get("/napspots/:id/comments/new", function(req, res){
+app.get("/napspots/:id/comments/new", isLoggedIn, function(req, res){
   //find napspot by ID
   Napspot.findById(req.params.id, function(err, foundNapSpot){
     if(err){
@@ -102,7 +102,7 @@ app.get("/napspots/:id/comments/new", function(req, res){
 
 
 //CREATE
-app.post("/napspots/:id/comments", function(req, res){
+app.post("/napspots/:id/comments", isLoggedIn, function(req, res){
   Napspot.findById(req.params.id, function(err, napspot){
     if(err){
       console.log(err);
@@ -153,12 +153,23 @@ app.post("/login",
     }), function(req, res){
   });
 
+app.get("/logout", function(req, res){
+  req.logout();
+  res.redirect("/napspots");
+});
+
 // ERROR MSG
 
 app.get("/*", function(req, res){
 	res.render("error");
 });
 
+function isLoggedIn(req, res, next){
+  if(req.isAuthenticated()){
+    return next();
+  }
+  res.redirect("/login");
+};
 
 // SERVER
 app.listen(3000, function(){
