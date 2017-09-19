@@ -46,8 +46,7 @@ router.get("/:id", function(req, res){
     if(err){
       console.log(err);
     } else {
-      console.log(foundNapSpot);
-      // render show template with that napspot
+        // render show template with that napspot
       res.render("napspots/show", {napspot: foundNapSpot});
     };
   });
@@ -75,10 +74,10 @@ router.put("/:id", checkNapspotOwnership, function(req, res){
   // redirect to show page
 });
 
-// DELETE ROUTE
+// DESTROY ROUTE
 
 router.delete("/:id", checkNapspotOwnership, function(req, res){
-  mongoose.findByIdAndRemove(req.params.id, function(err){
+  Napspot.findByIdAndRemove(req.params.id, function(err){
     if(err){
       res.redirect("/napspots");
     } else {
