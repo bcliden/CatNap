@@ -19,6 +19,10 @@
           <h1><a><%=napspot.name%></a></h1>
           <p><%= napspot.description %></p>
           <p><em>Submitted by: <%= napspot.author.username %></em></p>
+          <a href="/napspots/<%=napspot._id%>/edit" class="btn btn-warning">Edit</a>
+          <form class="" id="delete-form" action="/<%= napspot._id %>?_method=delete" method="post">
+            <button type="submit" class="btn btn-danger">Delete</button>
+          </form>
         </div>
       </div>
       <div class="well">

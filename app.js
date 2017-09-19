@@ -3,12 +3,13 @@ var express 		  = require("express"),
  		bodyParser    = require("body-parser"),
     passport      = require("passport"),
     localStrategy = require("passport-local"),
+    methodOverride = require("method-override"),
 		Napspot       = require("./models/napspot"),
     Comment       = require("./models/comment"),
     User          = require("./models/user"),
     seedDB        = require("./seeds");
 
-//REQUIRING ROUTES
+// REQUIRING ROUTES
 var commentRoutes = require("./routes/comments"),
     napspotRoutes = require("./routes/napspots"),
     indexRoutes   = require("./routes/index");
@@ -17,15 +18,16 @@ var commentRoutes = require("./routes/comments"),
 var mongoose = require("mongoose");
 mongoose.connect("mongodb://localhost/catnap");
 
-//UNCOMMENT TO SEED DB ON INIT
-//seedDB();
+// UNCOMMENT TO SEED DB ON INIT
+// seedDB();
 
 // APP CONFIG
 app.set("view engine", "ejs");
 app.use(express.static(__dirname + '/public'));
 app.use(bodyParser.urlencoded({extended: true}));
+app.use(methodOverride("_method"));
 
-//PASSPORT CONFIG
+// PASSPORT CONFIG
 app.use(require("express-session")({
   secret: "Secret passphrase here",
   resave: false,
@@ -42,6 +44,7 @@ app.use(function(req, res, next){
   next();
 })
 
+// ROUTING
 app.use("/napspots/:id/comments", commentRoutes);
 app.use("/napspots", napspotRoutes);
 app.use(indexRoutes);

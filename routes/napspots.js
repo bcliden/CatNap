@@ -53,6 +53,44 @@ router.get("/:id", function(req, res){
   });
 });
 
+// EDIT ROUTE
+
+router.get("/:id/edit", function(req, res){
+  Napspot.findById(req.params.id, function(err, foundNapSpot){
+    if(err){
+      res.redirect("/napspots");
+    } else {
+      res.render("napspots/edit", {napspot: foundNapSpot});
+    };
+  });
+});
+
+// UPDATE ROUTE
+
+router.put("/:id", function(req, res){
+  // find and update the correct napspot
+  Napspot.findByIdAndUpdate(req.params.id, req.body.napspot, function(err, updatedNapspot){
+    if(err){
+      res.redirect("/napspots");
+    } else {
+      res.redirect("/napspots/" + req.params.id)
+    };
+  });
+  // redirect to show page
+});
+
+// DELETE ROUTE
+
+router.delete("/:id", function(req, res){
+  mongoose.findByIdAndRemove(req.params.id, function(err){
+    if(err){
+      res.redirect("/napspots");
+    } else {
+      res.redirect("/napspots");
+    };
+  });
+});
+
 // MIDDLEWARE
 
 function isLoggedIn(req, res, next){
