@@ -1,6 +1,7 @@
 var express = require("express");
     router  = express.Router()
-    Napspot = require("../models/napspot");
+    Napspot = require("../models/napspot"),
+    middleware = require("../middleware");
 
 // INDEX
 router.get("/", function(req, res){
@@ -15,7 +16,7 @@ router.get("/", function(req, res){
 });
 
 // CREATE
-router.post("/", isLoggedIn, function(req, res){
+router.post("/", middleware.isLoggedIn, function(req, res){
 	//get data from form req
 	var name = req.body.name;
 	var image = req.body.image;
@@ -35,7 +36,7 @@ router.post("/", isLoggedIn, function(req, res){
 });
 
 // NEW
-router.get("/new", isLoggedIn, function(req, res){
+router.get("/new", middleware.isLoggedIn, function(req, res){
 	res.render("napspots/new")
 });
 
@@ -54,7 +55,7 @@ router.get("/:id", function(req, res){
 
 // EDIT ROUTE
 
-router.get("/:id/edit", checkNapspotOwnership, function(req, res){
+router.get("/:id/edit", middleware.checkNapspotOwnership, function(req, res){
     Napspot.findById(req.params.id, function(err, foundNapspot){
           res.render("napspots/edit", {napspot: foundNapspot});
     });
@@ -62,7 +63,7 @@ router.get("/:id/edit", checkNapspotOwnership, function(req, res){
 
 // UPDATE ROUTE
 
-router.put("/:id", checkNapspotOwnership, function(req, res){
+router.put("/:id", middleware.checkNapspotOwnership, function(req, res){
   // find and update the correct napspot
   Napspot.findByIdAndUpdate(req.params.id, req.body.napspot, function(err, updatedNapspot){
     if(err){
@@ -76,7 +77,7 @@ router.put("/:id", checkNapspotOwnership, function(req, res){
 
 // DESTROY ROUTE
 
-router.delete("/:id", checkNapspotOwnership, function(req, res){
+router.delete("/:id", middleware.checkNapspotOwnership, function(req, res){
   Napspot.findByIdAndRemove(req.params.id, function(err){
     if(err){
       res.redirect("/napspots");
@@ -85,32 +86,5 @@ router.delete("/:id", checkNapspotOwnership, function(req, res){
     };
   });
 });
-
-// MIDDLEWARE
-
-function isLoggedIn(req, res, next){
-  if(req.isAuthenticated()){
-    return next();
-  }
-  res.redirect("/login");
-};
-
-function checkNapspotOwnership(req, res, next){
-  if(req.isAuthenticated()){
-    Napspot.findById(req.params.id, function(err, foundNapspot){
-      if(err){
-        res.redirect("back");
-      } else {
-        if(foundNapspot.author.id.equals(req.user._id)){
-          next();
-        } else {
-          res.redirect("back");
-        };
-      };
-    });
-  } else {
-    res.redirect("back");
-  };
-}
 
 module.exports = router;
