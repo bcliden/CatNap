@@ -21,10 +21,11 @@ router.post("/signup", function(req, res){
   var newUser = new User({username: req.body.username});
   User.register(newUser, req.body.password, function(err, user){
     if(err){
-      console.log(err);
-      return res.render("signup")
+      req.flash("error", err.message);
+      return res.redirect("signup");
     }
     passport.authenticate("local")(req, res, function(){
+      req.flash("success", "Welcome to CatNap, " + req.body.username + "!");
       res.redirect("/napspots");
     })
   });
@@ -40,13 +41,16 @@ router.post("/login",
   passport.authenticate("local",
     {
       successRedirect: "/napspots",
-      failureRedirect: "/login"
+      failureRedirect: "/login",
+      successFlash: true,
+      failureFlash: true
     }), function(req, res){
   });
 
 //LOGOUT
 router.get("/logout", function(req, res){
   req.logout();
+  req.flash("success", "Logged you out!")
   res.redirect("/napspots");
 });
 
@@ -54,13 +58,5 @@ router.get("/logout", function(req, res){
 router.get("/*", function(req, res){
 	res.render("error");
 });
-
-// MIDDLEWARE
-function isLoggedIn(req, res, next){
-  if(req.isAuthenticated()){
-    return next();
-  }
-  res.redirect("/login");
-};
 
 module.exports = router;

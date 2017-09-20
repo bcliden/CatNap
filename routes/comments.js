@@ -35,6 +35,7 @@ router.post("/", middleware.isLoggedIn, function(req, res){
           //save comment
           napspot.comments.push(comment);
           napspot.save();
+          req.flash("success", "Successfully added comment.");
           res.redirect("/napspots/" + napspot._id);
         };
       });
@@ -48,6 +49,7 @@ router.get("/:comment_id/edit", middleware.checkCommentOwnership, function(req, 
     if(err){
       res.redirect("back");
     } else {
+      req.flash("success", "Comment deleted.")
       res.render("comments/edit", {napspot_id: req.params.id, comment: foundComment});
     };
   });

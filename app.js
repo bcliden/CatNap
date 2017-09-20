@@ -7,6 +7,7 @@ var express 		  = require("express"),
 		Napspot       = require("./models/napspot"),
     Comment       = require("./models/comment"),
     User          = require("./models/user"),
+    flash         = require("connect-flash"),
     seedDB        = require("./seeds");
 
 // REQUIRING ROUTES
@@ -26,6 +27,7 @@ app.set("view engine", "ejs");
 app.use(express.static(__dirname + '/public'));
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(methodOverride("_method"));
+app.use(flash());
 
 // PASSPORT CONFIG
 app.use(require("express-session")({
@@ -41,6 +43,8 @@ passport.deserializeUser(User.deserializeUser());
 
 app.use(function(req, res, next){
   res.locals.currentUser = req.user;
+  res.locals.error = req.flash("error");
+  res.locals.success = req.flash("success");
   next();
 })
 
