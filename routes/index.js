@@ -42,8 +42,8 @@ router.post("/login",
     {
       successRedirect: "/napspots",
       failureRedirect: "/login",
-      successFlash: true,
-      failureFlash: true,
+      successFlash: "Welcome!",
+      failureFlash: "Invalid username or password.",
     }), function(req, res){
   });
 
