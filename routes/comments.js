@@ -49,7 +49,6 @@ router.get("/:comment_id/edit", middleware.checkCommentOwnership, function(req, 
     if(err){
       res.redirect("back");
     } else {
-      req.flash("success", "Comment deleted.")
       res.render("comments/edit", {napspot_id: req.params.id, comment: foundComment});
     };
   });
@@ -61,6 +60,7 @@ router.put("/:comment_id", middleware.checkCommentOwnership, function(req, res){
     if(err){
       res.redirect("back");
     } else {
+      req.flash("success", "Comment edited successfully.");
       res.redirect("/napspots/" + req.params.id);
     };
   });
@@ -72,6 +72,7 @@ router.delete("/:comment_id", middleware.checkCommentOwnership, function(req, re
     if(err){
       res.redirect("back")
     } else {
+      req.flash("success", "Comment deleted successfully.")
       res.redirect("/napspots/" + req.params.id)
     };
   });

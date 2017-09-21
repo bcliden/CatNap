@@ -3,30 +3,24 @@
 <div class="container">
 <div class="row">
 
-    <h1 style="text-align: center;">Edit <%= napspot.name %></h1>
-
-      <div style="width: 30%; margin: 25px auto;">
-
-        <form class="" action="/napspots/<%= napspot._id %>?_method=PUT" method="post">
-          <div class="form-group">
-            <input class="form-control" type="text" name="napspot[name]" value="<%= napspot.name %>" placeholder="name">
-          </div>
-          <div class="form-group">
-            <input class="form-control" type="text" name="napspot[image]" value="<%= napspot.image %>" placeholder="image url">
-          </div>
-          <div class="form-group">
-            <input class="form-control" type="text" name="napspot[description]" value="<%= napspot.description %>" placeholder="description">
-          </div>
-          <div class="form-group">
-            <button class="btn btn-lg btn-primary btn-block">Submit!</button>
-          </div>
-        </form>
-
-        <a href="/napspots">Go back to Nap Spots.</a>
-
-      </div>
-
-
+    <h1 class="form-head">Edit <%= napspot.name %></h1>
+    <div class="form-page">
+      <form class="" action="/napspots/<%= napspot._id %>?_method=PUT" method="post">
+        <div class="form-group">
+          <input class="form-control" type="text" name="napspot[name]" value="<%= napspot.name %>" placeholder="name">
+        </div>
+        <div class="form-group">
+          <input class="form-control" type="text" name="napspot[image]" value="<%= napspot.image %>" placeholder="image url">
+        </div>
+        <div class="form-group">
+          <input class="form-control" type="text" name="napspot[description]" value="<%= napspot.description %>" placeholder="description">
+        </div>
+        <div class="form-group">
+          <button class="btn btn-lg btn-primary btn-block">Submit!</button>
+        </div>
+      </form>
+      <a href="/napspots">Go back to Nap Spots.</a>
+    </div>
 
 </div>
 </div>

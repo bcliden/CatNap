@@ -43,7 +43,7 @@ router.post("/login",
       successRedirect: "/napspots",
       failureRedirect: "/login",
       successFlash: true,
-      failureFlash: true
+      failureFlash: true,
     }), function(req, res){
   });
 

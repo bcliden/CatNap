@@ -9,3 +9,12 @@
 .delete-form {
   display: inline;
 }
+
+.form-head {
+  text-align: center;
+}
+
+.form-page {
+  width: 30%;
+  margin: 25px auto;
+}
