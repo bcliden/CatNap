@@ -15,7 +15,7 @@
         <img class="image-responsive" src="<%= napspot.image %>" alt="">
         <div class="caption">
           <%# PRICE %>
-          <h4 class="pull-right">$9.00/night</h4>
+          <h4 class="pull-right">$<%= napspot.price %>/night</h4>
           <h1><a><%=napspot.name%></a></h1>
           <p><%= napspot.description %></p>
           <p><em>Submitted by: <%= napspot.author.username %></em></p>

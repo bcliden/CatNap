@@ -10,7 +10,7 @@ router.get("/", function(req, res){
 			if(err){
 				console.log(err);
 			} else {
-				res.render("napspots/index", {napspots: allNapspots, currentUser: req.user});
+				res.render("napspots/index", {napspots: allNapspots, page: "napspots"});
 			};
 		});
 });
@@ -19,13 +19,14 @@ router.get("/", function(req, res){
 router.post("/", middleware.isLoggedIn, function(req, res){
 	//get data from form req
 	var name = req.body.name;
+  var price = req.body.price;
 	var image = req.body.image;
   var description = req.body.description;
   var author = {
     id: req.user._id,
     username: req.user.username
   };
-	var newNapspot = {name: name, image: image, description: description, author: author};
+	var newNapspot = {name: name, price: price, image: image, description: description, author: author};
 	Napspot.create(newNapspot, function(err, newNapspot){
 		if(err){
 			console.log(err);

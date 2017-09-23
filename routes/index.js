@@ -13,7 +13,7 @@ router.get("/", function(req, res){
 
 //REGISTER FORM
 router.get("/signup", function(req, res){
-  res.render("signup");
+  res.render("signup", {page: "signup"});
 });
 
 //HANDLES REGISTRATION
@@ -33,7 +33,7 @@ router.post("/signup", function(req, res){
 
 //LOGIN FORM
 router.get("/login", function(req, res){
-  res.render("login");
+  res.render("login", {page: "login"});
 });
 
 //HANDLES LOGIN
