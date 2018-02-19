@@ -1,4 +1,4 @@
-var express = require("express"),
+const express = require("express"),
     router  = express.Router(),
     passport = require("passport"),
     User = require("../models/user");
@@ -18,7 +18,7 @@ router.get("/signup", function(req, res){
 
 //HANDLES REGISTRATION
 router.post("/signup", function(req, res){
-  var newUser = new User({username: req.body.username});
+  const newUser = new User({username: req.body.username});
   User.register(newUser, req.body.password, function(err, user){
     if(err){
       req.flash("error", err.message);

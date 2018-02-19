@@ -1,22 +1,22 @@
-var express 		  = require("express"),
- 		app           = express(),
- 		bodyParser    = require("body-parser"),
-    passport      = require("passport"),
-    localStrategy = require("passport-local"),
-    methodOverride = require("method-override"),
-		Napspot       = require("./models/napspot"),
-    Comment       = require("./models/comment"),
-    User          = require("./models/user"),
-    flash         = require("connect-flash"),
-    seedDB        = require("./seeds");
+const express 		  = require("express"),
+      app           = express(),
+      bodyParser    = require("body-parser"),
+      passport      = require("passport"),
+      localStrategy = require("passport-local"),
+      methodOverride = require("method-override"),
+      Napspot       = require("./models/napspot"),
+      Comment       = require("./models/comment"),
+      User          = require("./models/user"),
+      flash         = require("connect-flash"),
+      seedDB        = require("./seeds");
 
 // REQUIRING ROUTES
-var commentRoutes = require("./routes/comments"),
+const commentRoutes = require("./routes/comments"),
     napspotRoutes = require("./routes/napspots"),
     indexRoutes   = require("./routes/index");
 
 // DATABASE
-var mongoose = require("mongoose");
+const mongoose = require("mongoose");
 mongoose.connect("mongodb://localhost/catnap");
 
 // UNCOMMENT TO SEED DB ON INIT

@@ -1,14 +1,14 @@
-var express = require("express");
-    router  = express.Router()
-    Napspot = require("../models/napspot"),
-    middleware = require("../middleware");
+const express = require("express");
+      router  = express.Router(),
+      Napspot = require("../models/napspot"),
+      middleware = require("../middleware");
 
 // INDEX
 router.get("/", function(req, res){
 		//get all napspots from DB
 		Napspot.find({}, function(err, allNapspots){
 			if(err){
-				console.log(err);
+				console.error(err);
 			} else {
 				res.render("napspots/index", {napspots: allNapspots, page: "napspots"});
 			};
@@ -18,18 +18,24 @@ router.get("/", function(req, res){
 // CREATE
 router.post("/", middleware.isLoggedIn, function(req, res){
 	//get data from form req
-	var name = req.body.name;
-  var price = req.body.price;
-	var image = req.body.image;
-  var description = req.body.description;
-  var author = {
+	const name = req.body.name;
+  const price = req.body.price;
+	const image = req.body.image;
+  const description = req.body.description;
+  const author = {
     id: req.user._id,
     username: req.user.username
   };
-	var newNapspot = {name: name, price: price, image: image, description: description, author: author};
+	var newNapspot = {
+    name: name, 
+    price: price, 
+    image: image, 
+    description: description, 
+    author: author
+  };
 	Napspot.create(newNapspot, function(err, newNapspot){
 		if(err){
-			console.log(err);
+			console.error(err);
 		} else {
       req.flash("success", "Spot added successfully.");
 			res.redirect("/napspots");
@@ -47,7 +53,7 @@ router.get("/:id", function(req, res){
 //find the napspot with the provided ID
   Napspot.findById(req.params.id).populate("comments").exec(function(err, foundNapSpot){
     if(err){
-      console.log(err);
+      console.error(err);
     } else {
         // render show template with that napspot
       res.render("napspots/show", {napspot: foundNapSpot});

@@ -1,4 +1,4 @@
-var express = require("express"),
+const express = require("express"),
     router  = express.Router({mergeParams: true}),
     Napspot = require("../models/napspot"),
     Comment = require("../models/comment"),
@@ -9,7 +9,7 @@ router.get("/new", middleware.isLoggedIn, function(req, res){
   //find napspot by ID
   Napspot.findById(req.params.id, function(err, foundNapSpot){
     if(err){
-      console.log(err);
+      console.error(err);
     } else {
       res.render("comments/new", {napspot: foundNapSpot});
     };
@@ -20,12 +20,12 @@ router.get("/new", middleware.isLoggedIn, function(req, res){
 router.post("/", middleware.isLoggedIn, function(req, res){
   Napspot.findById(req.params.id, function(err, napspot){
     if(err){
-      console.log(err);
+      console.error(err);
       res.redirect("/napspots")
     } else {
       Comment.create(req.body.comment, function(err, comment){
         if(err){
-          console.log(err)
+          console.error(err)
           res.redirect("/napspots");
         } else {
           //add username + id to comment
